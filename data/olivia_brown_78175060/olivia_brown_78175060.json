@@ -1,0 +1,27 @@
+{
+  "id": "2dc6cbd3-d2b4-46ba-a603-85d15b88ae9c",
+  "babyName": "Olivia Brown",
+  "motherName": "Amanda Brown",
+  "address": "789 Pine Road, Springfield, IL 62703",
+  "babyDetails": {
+    "gestationalAge": "37",
+    "weightKg": 3.2,
+    "sex": "female",
+    "heartRateBpm": 145,
+    "temperatureC": 36.3
+  },
+  "maternalDetails": {
+    "maternalAgeYears": 25,
+    "parity": "p1",
+    "location": "City Medical Center",
+    "maternalEducation": "Associate Degree",
+    "deliveryMode": "normal",
+    "gestationalHistory": "First pregnancy, premature by 3 weeks",
+    "gestationalAgeEstimationMethod": "Ballard score"
+  },
+  "images": {},
+  "folderName": "olivia_brown_78175060",
+  "folderPath": "C:\\MyProject\\newborn-nest-app-main\\data\\olivia_brown_78175060",
+  "createdAt": "2025-11-17T18:49:35.063Z",
+  "updatedAt": "2025-11-17T18:49:35.063Z"
+}

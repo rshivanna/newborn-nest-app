@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Debug Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .log {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 8px;
+        }
+        button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Debug Tool</h1>
+
+    <div>
+        <h3>Current Configuration:</h3>
+        <div class="log">
+Location: <span id="location"></span>
+Protocol: <span id="protocol"></span>
+        </div>
+    </div>
+
+    <div>
+        <h3>Test 1: Check API Health</h3>
+        <button onclick="testHealth()">Test /api/health</button>
+        <div id="health-result"></div>
+    </div>
+
+    <div>
+        <h3>Test 2: Test Image Upload</h3>
+        <input type="file" id="testImage" accept="image/*">
+        <br>
+        <button onclick="testUpload()">Upload Test Image</button>
+        <div id="upload-result"></div>
+    </div>
+
+    <script>
+        // Display current configuration
+        document.getElementById('location').textContent = window.location.href;
+        document.getElementById('protocol').textContent = window.location.protocol;
+
+        async function testHealth() {
+            const resultDiv = document.getElementById('health-result');
+            resultDiv.innerHTML = '<div class="log">Testing...</div>';
+
+            try {
+                const response = await fetch('/api/health', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                resultDiv.innerHTML = `
+                    <div class="log success">
+✓ Health Check Successful
+Status: ${response.status}
+Response: ${JSON.stringify(data, null, 2)}
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="log error">
+✗ Health Check Failed
+Error: ${error.message}
+Stack: ${error.stack}
+                    </div>
+                `;
+            }
+        }
+
+        async function testUpload() {
+            const resultDiv = document.getElementById('upload-result');
+            const fileInput = document.getElementById('testImage');
+
+            if (!fileInput.files || !fileInput.files[0]) {
+                resultDiv.innerHTML = '<div class="log error">Please select an image first</div>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<div class="log">Uploading...</div>';
+
+            try {
+                const formData = new FormData();
+                formData.append('babyName', 'Test Baby');
+                formData.append('motherName', 'Test Mother');
+                formData.append('address', 'Test Address');
+                formData.append('face', fileInput.files[0]);
+
+                console.log('FormData contents:');
+                for (let pair of formData.entries()) {
+                    console.log(pair[0], pair[1]);
+                }
+
+                const response = await fetch('/api/patients', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="log success">
+✓ Upload Successful
+Status: ${response.status}
+Patient ID: ${data.data?.id}
+Response: ${JSON.stringify(data, null, 2)}
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="log error">
+✗ Upload Failed
+Status: ${response.status}
+Error: ${JSON.stringify(data, null, 2)}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="log error">
+✗ Upload Failed
+Error: ${error.message}
+Stack: ${error.stack}
+                    </div>
+                `;
+                console.error('Upload error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

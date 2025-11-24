@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__ide__getDiagnostics",
+      "Bash(curl:*)",
+      "Bash(node -e:*)",
+      "Bash(pm2 list:*)",
+      "Bash(netstat:*)",
+      "Bash(ss:*)",
+      "Bash(taskkill:*)",
+      "Bash(kill:*)",
+      "Bash(node -p:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

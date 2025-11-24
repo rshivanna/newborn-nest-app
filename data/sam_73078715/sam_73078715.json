@@ -1,0 +1,38 @@
+{
+  "id": "a9c3b259-dd71-416e-a098-dbf06414401e",
+  "babyName": "sam",
+  "motherName": "kaka",
+  "address": "papa",
+  "babyDetails": {
+    "gestationalAge": "38",
+    "weightKg": 3.5,
+    "sex": "male",
+    "heartRateBpm": 140,
+    "temperatureC": 36.3
+  },
+  "maternalDetails": {
+    "maternalAgeYears": 28,
+    "parity": "1",
+    "location": "hospital",
+    "maternalEducation": "high school",
+    "deliveryMode": "normal",
+    "gestationalHistory": "",
+    "gestationalAgeEstimationMethod": "Ultra sound"
+  },
+  "assessments": {
+    "face": "Superficial peeling &/or rash, few veins",
+    "ear": "Abundant",
+    "foot": "Faint red marks",
+    "palm": ""
+  },
+  "images": {
+    "ear": "sam_73078715_ear_1763673175797.jpg",
+    "foot": "sam_73078715_foot_1763673178504.jpg",
+    "palm": "sam_73078715_palm_1763673185699.jpg",
+    "face": "sam_73078715_face_1763673196749.jpg"
+  },
+  "folderName": "sam_73078715",
+  "folderPath": "C:\\MyProject\\newborn-nest-app-main\\data\\sam_73078715",
+  "createdAt": "2025-11-20T21:11:18.717Z",
+  "updatedAt": "2025-11-20T21:13:33.497Z"
+}

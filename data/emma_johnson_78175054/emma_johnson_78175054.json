@@ -1,0 +1,34 @@
+{
+  "id": "8976d4d1-22e5-4b2e-8610-e3e6604ac06b",
+  "babyName": "Emma Johnson",
+  "motherName": "Sarah Johnson",
+  "address": "123 Maple Street, Springfield, IL 62701",
+  "babyDetails": {
+    "gestationalAge": "38",
+    "weightKg": 3.5,
+    "sex": "female",
+    "heartRateBpm": 140,
+    "temperatureC": 36.5
+  },
+  "maternalDetails": {
+    "maternalAgeYears": 28,
+    "parity": "p1",
+    "location": "Springfield Hospital",
+    "maternalEducation": "Bachelor's Degree",
+    "deliveryMode": "normal",
+    "gestationalHistory": "First pregnancy, no complications",
+    "gestationalAgeEstimationMethod": "Ultra sound"
+  },
+  "images": {
+    "ear": "emma_johnson_78175054_ear_1763598857093.jpg",
+    "foot": "emma_johnson_78175054_foot_1763594831488.jpg",
+    "palm": "emma_johnson_78175054_palm_1763594595817.jpg"
+  },
+  "folderName": "emma_johnson_78175054",
+  "folderPath": "C:\\MyProject\\newborn-nest-app-main\\data\\emma_johnson_78175054",
+  "createdAt": "2025-11-19T18:49:35.055Z",
+  "updatedAt": "2025-11-20T00:39:38.842Z",
+  "assessments": {
+    "face": "Cracking, pale areas, rare veins"
+  }
+}

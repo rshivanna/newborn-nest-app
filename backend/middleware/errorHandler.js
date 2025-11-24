@@ -1,0 +1,34 @@
+/**
+ * Global error handling middleware
+ * Must be defined after all routes
+ */
+export const errorHandler = (err, req, res, next) => {
+  console.error('Error:', err);
+
+  // Default error status and message
+  const status = err.status || err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+
+  // Log error details in development
+  if (process.env.NODE_ENV === 'development') {
+    console.error('Stack:', err.stack);
+  }
+
+  // Send error response
+  res.status(status).json({
+    error: {
+      message: message,
+      status: status,
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    }
+  });
+};
+
+/**
+ * 404 Not Found handler
+ */
+export const notFoundHandler = (req, res, next) => {
+  const error = new Error(`Not Found - ${req.originalUrl}`);
+  error.status = 404;
+  next(error);
+};

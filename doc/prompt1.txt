@@ -1,0 +1,90 @@
+
+
+**Goal:** Convert the current *Lovable* app into a **production-ready full-stack application** using **React (frontend)** and **Node.js/Express (backend)**. The final application will run on a **single AWS EC2 instance**.
+
+### **Requirements**
+
+#### **1. Frontend (React)**
+
+* Rebuild the current Lovable app UI in React (preferably with Vite).
+* Implement clean, modular components.
+* Form should capture:
+
+  * Patient details (text fields)
+  * Image capture/upload
+* On submit:
+
+  * Send data to the Node.js backend via REST API.
+  * Include:
+
+    * JSON payload with all patient fields
+    * Image file (multipart/form-data)
+
+#### **2. Backend (Node.js / Express)**
+
+* Create a `/submit` POST API endpoint.
+* Handle multipart/form-data using **multer**.
+* Save:
+
+  * Patient data as a **JSON file**
+  * Image file **in the same folder**
+* File names must follow the pattern:
+
+  * `{patientName}.json`
+  * `{patientName}.jpg/png`
+* Ensure the backend is production-ready:
+
+  * Input validation
+  * Error handling
+  * Logging
+  * Environment variables using `dotenv`
+  * CORS configuration for the React app
+
+#### **3. Directory Structure for Saved Data**
+
+Example:
+
+```
+/data/
+   John_Doe.json
+   John_Doe.jpg
+```
+
+#### **4. Deployment Constraints (AWS EC2 Single Instance)**
+
+* Generate:
+
+  * A production build process (React → `build` folder)
+  * Node.js server that can serve the React build
+  * Systemd service config or PM2 config for backend
+  * Nginx reverse proxy configuration (optional but recommended)
+* Include instructions for:
+
+  * Setting up EC2 instance
+  * Installing Node, Nginx
+  * Copying build files
+  * Running backend in production mode
+
+#### **5. Output Expected From Claude**
+
+Provide:
+
+1. Full folder structure
+2. Complete React code (components, hooks, services)
+3. Complete Node.js code (server.js, routes, middleware)
+4. Multer upload config
+5. Code for saving JSON + images to filesystem
+6. Production build instructions
+7. Deployment instructions for AWS EC2
+8. Security best practices
+
+### **Style**
+
+* Use best practices.
+* Code should be copy-paste-ready.
+* Add helpful comments.
+* Avoid unnecessary dependencies.
+
+---
+
+If you'd like, I can also **optimize this prompt**, **tailor it to your exact Lovable app structure**, or even **produce the full code for you here**.

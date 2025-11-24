@@ -1,0 +1,28 @@
+{
+  "id": "a03e52b9-c303-4326-8ba7-d3327dd151e2",
+  "babyName": "ram",
+  "motherName": "ram mom",
+  "address": "ram addr",
+  "babyDetails": {
+    "gestationalAge": "38",
+    "weightKg": 3.5,
+    "sex": "male",
+    "heartRateBpm": 140,
+    "temperatureC": 36
+  },
+  "maternalDetails": {
+    "maternalAgeYears": 28,
+    "parity": "1",
+    "location": "hosp",
+    "maternalEducation": "high",
+    "deliveryMode": "cesarean",
+    "gestationalHistory": "",
+    "gestationalAgeEstimationMethod": "LMB"
+  },
+  "assessments": {},
+  "images": {},
+  "folderName": "ram_74752979",
+  "folderPath": "C:\\MyProject\\AI\\Satya\\newborn-nest-app\\data\\ram_74752979",
+  "createdAt": "2025-11-20T21:39:12.980Z",
+  "updatedAt": "2025-11-24T16:01:47.493Z"
+}

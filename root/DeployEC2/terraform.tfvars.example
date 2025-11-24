@@ -1,0 +1,34 @@
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Project Configuration
+project_name = "newborn-nest"
+environment  = "dev"
+
+# EC2 Instance Configuration
+instance_type = "t3.micro"
+# ami_id = ""  # Leave empty to use latest Amazon Linux 2023
+
+# Network Configuration
+vpc_id    = "vpc-xxxxxxxxxxxxxxxxx"
+subnet_id = "subnet-xxxxxxxxxxxxxxxxx"
+
+# SSH Configuration
+key_name         = "your-key-pair-name"
+allowed_ssh_cidr = ["0.0.0.0/0"]  # Restrict this to your IP for production
+
+# Storage Configuration
+root_volume_size = 20
+
+# Optional Features
+associate_eip              = false
+enable_detailed_monitoring = false
+
+# User Data Script (optional)
+# user_data_script = <<-EOF
+#   #!/bin/bash
+#   yum update -y
+#   yum install -y docker
+#   systemctl start docker
+#   systemctl enable docker
+# EOF

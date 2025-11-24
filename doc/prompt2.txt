@@ -1,0 +1,169 @@
+
+
+**Your task:**
+Convert my current Lovable prototype app into a **production-ready full-stack application** using:
+
+* **React** (frontend)
+* **Node.js + Express** (backend)
+* Deployment on a **single AWS EC2 instance**
+* All captured data saved **as JSON + image files**, stored in the same folder, using the **patient’s name** as both filenames.
+
+---
+
+## 🔷 **APP FUNCTIONALITY REQUIREMENTS**
+
+### **1. Frontend (React)**
+
+Rebuild the existing Lovable UI in React with production standards:
+
+* Use modern React (hooks, functional components, no legacy code).
+* Implement a clean component structure.
+* Provide a form that captures:
+
+  * Patient details (text inputs)
+  * Captured or uploaded image
+* On submission:
+
+  * Send the patient data to the backend via **multipart/form-data**
+  * The backend should receive:
+
+    * A JSON payload for patient data
+    * One image file
+
+### **2. Backend (Node.js / Express)**
+
+Build a production-grade backend API:
+
+* Create an endpoint:
+  `POST /api/patient`
+* Use **multer** for image upload handling.
+* Save all submitted data into a folder:
+
+```
+/data/
+   John_Doe.json
+   John_Doe.jpg     (or .png)
+```
+* json format 
+{
+  "id": "52efdf15-e31d-4089-8e7d-14426da3a3af",
+  "babyName": "Sam",
+  "motherName": "Sam's Mon",
+  "address": "1 main st",
+  "babyDetails": {
+    "gestationalAge": "38",
+    "weightKg": 3.5,
+    "sex": "male",
+    "heartRateBpm": 140,
+    "temperatureC": 36.3
+  },
+  "maternalDetails": {
+    "maternalAgeYears": 28,
+    "parity": "p1",
+    "location": "New Port",
+    "maternalEducation": "High School",
+    "deliveryMode": "normal",
+    "gestationalHistory": "",
+    "gestationalAgeEstimationMethod": "Ultra sound"
+  },
+  "images": {},
+  "folderName": "sam_20079576",
+  "folderPath": "C:\\MyProject\\AI\\Satya\\newborn-nest-app-main_V1\\data\\sam_20079576",
+  "createdAt": "2025-11-19T17:57:33.362Z",
+  "updatedAt": "2025-11-19T17:57:33.362Z"
+}
+
+* Filenames must be based on the **patient’s name**.
+* Backend responsibilities:
+
+  * Validate inputs
+  * Handle file system saving
+  * Serve React build in production
+  * Error handling + logging
+  * CORS setup
+  * Environment variables using `dotenv`
+
+---
+
+## 🔷 **FOLDER STRUCTURE (Expected Output)**
+
+Claude should produce something like:
+
+```
+project/
+  backend/
+    server.js
+    routes/
+    middleware/
+    data/
+  frontend/
+    src/
+    build/
+```
+
+And include all code.
+
+---
+
+## 🔷 **DEPLOYMENT REQUIREMENTS (AWS EC2)**
+
+Claude must provide:
+
+### **1. Build steps**
+
+* React → production build
+* Node.js → production server
+
+### **2. EC2 setup**
+
+* Install Node 20+
+* Setup folder structure
+* Install dependencies
+* Configure environment variables
+* Use **PM2** or **systemd** to keep the server running
+
+### **3. Reverse Proxy**
+
+Explain how to configure **Nginx** to:
+
+* Serve the React build
+* Proxy `/api/*` traffic to Node.js
+
+### **4. Security**
+
+Include best practices:
+
+* Disable CORS in production
+* Use environment variables
+* Validate form fields
+* Input sanitization
+* File size limits on uploads
+
+---
+
+## 🔷 **OUTPUT EXPECTED FROM CLAUDE**
+
+Claude should deliver:
+
+1. **Complete React code**
+2. **Complete Node.js backend code**
+3. **All routes, middleware, and upload handlers**
+4. **JSON + image saving logic**
+5. **All required package.json files**
+6. **A production-ready file structure**
+7. **Full AWS EC2 deployment guide**
+8. **Optional: Dockerfile + docker-compose** (if helpful)
+
+---
+
+## 🔷 **STYLE GUIDELINES**
+
+* Code must be copy-paste-ready.
+* Use clear comments.
+* Use modern React + Node patterns.
+* Avoid deprecated libraries.
+* Provide concise explanations before each code block.
+
+---
+
+If you want, I can also generate a **specialized version of this prompt** tailored to a specific Lovable app design or workflow—just send me the Lovable link or describe the UI.

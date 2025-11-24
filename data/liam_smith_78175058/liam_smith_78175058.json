@@ -1,0 +1,27 @@
+{
+  "id": "84a6abeb-a073-4790-b8a4-a98fba289fb6",
+  "babyName": "Liam Smith",
+  "motherName": "Jennifer Smith",
+  "address": "456 Oak Avenue, Springfield, IL 62702",
+  "babyDetails": {
+    "gestationalAge": "39",
+    "weightKg": 3.8,
+    "sex": "male",
+    "heartRateBpm": 135,
+    "temperatureC": 36.7
+  },
+  "maternalDetails": {
+    "maternalAgeYears": 32,
+    "parity": "p2",
+    "location": "Memorial Hospital",
+    "maternalEducation": "High School",
+    "deliveryMode": "cesarean",
+    "gestationalHistory": "Second pregnancy, previous C-section",
+    "gestationalAgeEstimationMethod": "LMB"
+  },
+  "images": {},
+  "folderName": "liam_smith_78175058",
+  "folderPath": "C:\\MyProject\\newborn-nest-app-main\\data\\liam_smith_78175058",
+  "createdAt": "2025-11-18T18:49:35.058Z",
+  "updatedAt": "2025-11-18T18:49:35.058Z"
+}
