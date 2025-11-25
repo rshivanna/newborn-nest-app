@@ -41,6 +41,7 @@ resource "aws_instance" "newborn_nest_server" {
         
         #### NGINX setting
         # Remove default site
+        sudo rm -r /etc/nginx/sites-enabled/default
         sudo rm -r /etc/nginx/sites-available/default
         # Create nginx config and symbolic link
         sudo cp  /var/www/newborn-nest/scripts/newborn-nest /etc/nginx/sites-available/        
@@ -61,10 +62,21 @@ resource "aws_instance" "newborn_nest_server" {
         sudo cp .env.production .env        
         FILE="/var/www/newborn-nest/backend/.env"
         OLD_IP="00.000.000.000"      
-        sed -i "s|CORS_ORIGIN=https://$OLD_IP|CORS_ORIGIN=$PUBLIC_IP|g" "$FILE"        
-        pm2 start server.js --name newborn-nest
-        pm2 save
-        pm2 startup systemd
+        sed -i "s|CORS_ORIGIN=https://$OLD_IP|CORS_ORIGIN=$PUBLIC_IP|g" "$FILE"     
+
+        cd /var/www/newborn-nest/backend           
+        pm2 start server.js --name newborn-nest --update-env 
+        #sudo pm2 save
+        #sudo pm2 startup systemd
+        
+        #### Nginx *****  
+        #systemctl daemon-reload
+        sudo rm -r /etc/nginx/sites-available/default
+        sudo systemctl reload nginx
+        sudo systemctl start nginx
+        sudo systemctl enable nginx
+        sudo systemctl restart nginx
+        pm2 restart newborn-nest --update-env 
 
       EOF
 

@@ -45,13 +45,8 @@ export const ImageUploadCard = ({
     reader.onloadend = () => {
       const base64String = reader.result as string;
 
-      // If there's already an uploaded image, auto-upload the new one (replace mode)
-      if (imageUrl) {
-        onUpload(base64String);
-      } else {
-        // If no existing image, show preview first
-        setPreviewImage(base64String);
-      }
+      // Auto-upload immediately
+      onUpload(base64String);
     };
     reader.onerror = () => {
       alert("Failed to read image file");

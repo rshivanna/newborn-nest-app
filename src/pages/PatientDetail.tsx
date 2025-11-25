@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Camera, User, MapPin, Calendar } from "lucide-react";
@@ -12,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
 import { getPatientById, updatePatient, deletePatientImage, PatientData, getImageUrl } from "@/services/api";
 
 // Assessment options for each image type
@@ -57,6 +56,15 @@ export const PatientDetail = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [uploadingType, setUploadingType] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<{ text: string; type: 'info' | 'success' | 'error' } | null>(null);
+
+  // Auto-clear success messages after 3 seconds
+  useEffect(() => {
+    if (statusMessage?.type === 'success') {
+      const timer = setTimeout(() => setStatusMessage(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [statusMessage]);
 
   // Fetch patient data
   const { data: patientResponse, isLoading, error } = useQuery({
@@ -75,12 +83,12 @@ export const PatientDetail = () => {
       queryClient.invalidateQueries({ queryKey: ['patient', id] });
       queryClient.invalidateQueries({ queryKey: ['patients'] });
       setUploadingType(null);
-      toast.success('Photo uploaded successfully!');
+      setStatusMessage({ text: 'Photo uploaded successfully!', type: 'success' });
     },
     onError: (error) => {
       console.error('Upload error:', error);
       setUploadingType(null);
-      toast.error('Failed to upload photo');
+      setStatusMessage({ text: 'Failed to upload photo', type: 'error' });
     },
   });
 
@@ -116,7 +124,7 @@ export const PatientDetail = () => {
   const handleImageUpload = async (type: "face" | "ear" | "foot" | "palm", imageData: string) => {
     try {
       setUploadingType(type);
-      toast.info(`Uploading ${getImageTypeLabel(type)} photo...`);
+      setStatusMessage({ text: `Uploading ${getImageTypeLabel(type)} photo...`, type: 'info' });
 
       // Convert base64 to File
       const response = await fetch(imageData);
@@ -131,7 +139,7 @@ export const PatientDetail = () => {
 
     } catch (error) {
       console.error('Upload error:', error);
-      toast.error(`Failed to upload ${getImageTypeLabel(type)} photo`);
+      setStatusMessage({ text: `Failed to upload ${getImageTypeLabel(type)} photo`, type: 'error' });
       setUploadingType(null);
     }
   };
@@ -139,7 +147,7 @@ export const PatientDetail = () => {
   const handleImageDelete = async (type: "face" | "ear" | "foot" | "palm") => {
     try {
       setUploadingType(type);
-      toast.info(`Removing ${getImageTypeLabel(type)} photo...`);
+      setStatusMessage({ text: `Removing ${getImageTypeLabel(type)} photo...`, type: 'info' });
 
       // Delete the image file and update JSON
       await deletePatientImage(id!, type);
@@ -149,17 +157,17 @@ export const PatientDetail = () => {
       queryClient.invalidateQueries({ queryKey: ['patients'] });
 
       setUploadingType(null);
-      toast.success('Photo removed successfully!');
+      setStatusMessage({ text: 'Photo removed successfully!', type: 'success' });
     } catch (error) {
       console.error('Delete error:', error);
-      toast.error(`Failed to remove ${getImageTypeLabel(type)} photo`);
+      setStatusMessage({ text: `Failed to remove ${getImageTypeLabel(type)} photo`, type: 'error' });
       setUploadingType(null);
     }
   };
 
   const handleAssessmentChange = async (type: "face" | "ear" | "foot" | "palm", value: string) => {
     try {
-      toast.info(`Updating ${getImageTypeLabel(type)} assessment...`);
+      setStatusMessage({ text: `Updating ${getImageTypeLabel(type)} assessment...`, type: 'info' });
 
       // Update the assessment
       await updatePatientMutation.mutateAsync({
@@ -172,10 +180,10 @@ export const PatientDetail = () => {
         images: {},
       });
 
-      toast.success('Assessment updated successfully!');
+      setStatusMessage({ text: 'Assessment updated successfully!', type: 'success' });
     } catch (error) {
       console.error('Assessment update error:', error);
-      toast.error(`Failed to update ${getImageTypeLabel(type)} assessment`);
+      setStatusMessage({ text: `Failed to update ${getImageTypeLabel(type)} assessment`, type: 'error' });
     }
   };
 
@@ -243,9 +251,20 @@ export const PatientDetail = () => {
 
         {/* Medical Photos Section */}
         <div className="mb-6">
-          <h2 className="text-lg font-semibold text-card-foreground mb-4">
-            Medical Photos
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-card-foreground">
+              Medical Photos
+            </h2>
+            {statusMessage && (
+              <div className={`text-sm px-3 py-1 rounded ${
+                statusMessage.type === 'success' ? 'bg-green-100 text-green-800' :
+                statusMessage.type === 'error' ? 'bg-red-100 text-red-800' :
+                'bg-blue-100 text-blue-800'
+              }`}>
+                {statusMessage.text}
+              </div>
+            )}
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <ImageUploadCard
