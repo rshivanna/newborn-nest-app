@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newborn-nest-frontend
+  namespace: newborn-nest
+  labels:
+    app: newborn-nest
+    component: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: newborn-nest
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: newborn-nest
+        component: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: <YOUR_REGISTRY>/newborn-nest-frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3

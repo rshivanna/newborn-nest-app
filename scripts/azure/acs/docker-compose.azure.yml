@@ -1,0 +1,38 @@
+# Azure Container Service (ACS) - Deprecated, use AKS instead
+# This is provided for legacy reference only
+
+version: '3.8'
+
+services:
+  backend:
+    image: <YOUR_ACR>.azurecr.io/newborn-nest-backend:latest
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - CORS_ORIGIN=*
+    ports:
+      - "5000:5000"
+    volumes:
+      - backend-data:/app/data
+      - backend-logs:/app/logs
+    networks:
+      - app-network
+
+  frontend:
+    image: <YOUR_ACR>.azurecr.io/newborn-nest-frontend:latest
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  backend-data:
+  backend-logs:

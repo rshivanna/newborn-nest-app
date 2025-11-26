@@ -1,0 +1,77 @@
+# Azure DevOps Pipeline for CI/CD
+
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  azureSubscription: 'YOUR_AZURE_SUBSCRIPTION'
+  containerRegistry: 'newbornnestacr.azurecr.io'
+  imageRepository: 'newborn-nest'
+  dockerfilePath: '$(Build.SourcesDirectory)/scripts/docker'
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build and Push Images
+  jobs:
+  - job: BuildBackend
+    displayName: Build Backend
+    steps:
+    - task: Docker@2
+      displayName: Build and Push Backend Image
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)-backend
+        dockerfile: $(dockerfilePath)/Dockerfile.backend
+        containerRegistry: $(azureSubscription)
+        tags: |
+          $(tag)
+          latest
+
+  - job: BuildFrontend
+    displayName: Build Frontend
+    steps:
+    - task: Docker@2
+      displayName: Build and Push Frontend Image
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)-frontend
+        dockerfile: $(dockerfilePath)/Dockerfile.frontend
+        containerRegistry: $(azureSubscription)
+        tags: |
+          $(tag)
+          latest
+
+- stage: Deploy
+  displayName: Deploy to AKS
+  dependsOn: Build
+  jobs:
+  - deployment: DeployAKS
+    displayName: Deploy to AKS
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes
+            inputs:
+              action: deploy
+              kubernetesServiceConnection: 'aks-connection'
+              namespace: newborn-nest
+              manifests: |
+                $(Build.SourcesDirectory)/scripts/kubernetes/namespace.yaml
+                $(Build.SourcesDirectory)/scripts/kubernetes/configmap.yaml
+                $(Build.SourcesDirectory)/scripts/kubernetes/backend-deployment.yaml
+                $(Build.SourcesDirectory)/scripts/kubernetes/backend-service.yaml
+                $(Build.SourcesDirectory)/scripts/kubernetes/frontend-deployment.yaml
+                $(Build.SourcesDirectory)/scripts/kubernetes/frontend-service.yaml
+              containers: |
+                $(containerRegistry)/$(imageRepository)-backend:$(tag)
+                $(containerRegistry)/$(imageRepository)-frontend:$(tag)
